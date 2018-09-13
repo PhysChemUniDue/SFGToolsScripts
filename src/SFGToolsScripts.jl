@@ -80,7 +80,7 @@ function fieldcorrection!(spectrum; bias=[], dark=[], flat=[], darkflat=[])
         flatmean = mean(flat, dims=3)
         flatmean ./= maximum(flatmean)
         for i = 1:size(s, 3)
-            s[:,:,i] .*= flatmean[:,:,1]
+            s[:,:,i] ./= flatmean[:,:,1]
         end
         s
     end
