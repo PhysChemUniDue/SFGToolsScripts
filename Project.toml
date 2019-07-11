@@ -4,6 +4,7 @@ authors = ["MLackner <lacknersmichael@gmail.com>"]
 version = "0.1.0"
 
 [deps]
+AndorSIF = "d04cd5f8-5917-4006-ac6f-d139328806a7"
 Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
 PyPlot = "d330b81b-6aea-500a-939a-2ce795aea3ee"
 SFGTools = "27cad0a0-9c7d-4dc4-9a71-c2cc5f520b28"

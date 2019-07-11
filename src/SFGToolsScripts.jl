@@ -41,7 +41,7 @@ function get_date_choice(date_options)
 end
 
 function get_date_options()
-    df = list_spectra()    
+    df = list_spectra()
     dates = floor.(df[:date], Dates.Day)
     unique_dates = reverse(unique(dates), dims=1)
     date_options = string.(unique_dates)
@@ -57,49 +57,6 @@ function SFGTools.load_spectra(;msg="Load Spectra:")
     data = load_spectra(spectra_choices)
 end
 
-function fieldcorrection!(spectrum; bias=[], dark=[], flat=[], darkflat=[])
-
-    function rm_offset!(s, offset)
-        offset_m = mean(offset, dims=3)
-        for i = 1:size(s, 3)
-            s[:,:,i] .-= offset_m[:,:,1]
-        end
-        s
-    end
-
-    function rm_offset(s, offset)
-        offset_m = mean(offset, dims=3)
-        n = deepcopy(s)
-        for i = 1:size(s, 3)
-            n[:,:,i] .-= offset_m[:,:,1]
-        end
-        n
-    end
-
-    function flatcorrection!(s, flat)
-        flatmean = mean(flat, dims=3)
-        flatmean ./= maximum(flatmean)
-        for i = 1:size(s, 3)
-            s[:,:,i] ./= flatmean[:,:,1]
-        end
-        s
-    end
-
-    # For readability make same length as all
-    dafl = darkflat
-    spec = spectrum
-
-    !isempty(bias) &&            rm_offset!(spec, bias)
-    !isempty(dark) && (dark_ub = rm_offset( dark, bias))
-    !isempty(flat) && (flat_ub = rm_offset( flat, bias))
-    !isempty(dafl) && (dafl_ub = rm_offset( dafl, bias))
-    !isempty(dark) && rm_offset!(spec,    dark_ub)
-    !isempty(dafl) && rm_offset!(flat_ub, dafl_ub)
-
-    !isempty(flat) && flatcorrection!(spec, flat_ub)
-
-    return spec
-end
 
 function fieldcorrectionreport(spectrum_raw, spectrum, bias, dark, flat, darkflat)
     pygui()
@@ -183,7 +140,7 @@ function plotheatmaps(m, dltime, sigcol, refcol)
     subplot(1,3,1)
     title("Signal")
     pcolor(x, dltime, m[:,:,sigcol])
-    
+
     subplot(1,3,2)
     title("Reference")
     pcolor(x, dltime, m[:,:,refcol])
@@ -201,7 +158,7 @@ function plotintegrals(m, dltime, pixellocs, pixelwidth, sigcol, refcol)
 
     pixelstart = pixellocs .- pixelwidth ÷ 2
     pixelend   = pixellocs .+ pixelwidth ÷ 2
-    
+
     figure()
 
     subplot(1,2,1)
@@ -220,7 +177,7 @@ function plotintegrals(m, dltime, pixellocs, pixelwidth, sigcol, refcol)
         plot(dltime, integ[:,1,1])
     end
     legend()
-    
+
     nothing
 end
 
@@ -257,7 +214,7 @@ function pump_probe_process(sigcol=2, refcol=3)
     println("Choose width over which to integrate\nExample: 10")
     pixelwidth = readline() |> Meta.parse |> eval
     plotintegrals(m, dltime, pixellocs, pixelwidth, sigcol, refcol)
-    
+
 end
 
 end # module
