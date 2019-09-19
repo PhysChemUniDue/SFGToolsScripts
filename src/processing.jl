@@ -58,11 +58,6 @@ function get_reffactors(r; refrange=1:10, verbose=false, threshold=threshold=(0.
         mfacfit[i,:] .= evaluate(spl, x)
     end
 
-
-    if verbose
-        pcolormesh(mfacfit)
-    end
-
     mfacfit
 end
 
