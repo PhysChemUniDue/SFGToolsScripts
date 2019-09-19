@@ -1,4 +1,5 @@
 using LsqFit, Statistics
+using Dierckx
 
 """
 `baseline_correction(spectrum; fitrange=(50, 50), poly=2)`
