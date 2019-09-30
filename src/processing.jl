@@ -33,9 +33,9 @@ end
 
 
 """
-`get_reffactors(r; refrange=1:10, verbose=false, threshold=threshold=(0.2 * maximum(r)))`
+`get_reffactors(r; refrange=1:10, verbose=false, threshold=(0.2 * maximum(r)))`
 """
-function get_reffactors(r; refrange=1:10, verbose=false, threshold=threshold=(0.2 * maximum(r)))
+function get_reffactors(r; refrange=1:10, verbose=false, threshold=(0.2 * maximum(r)))
     b = r .> threshold
     m = fill(NaN, size(r)) # contains values above threshold
     m[b] .= r[b]
